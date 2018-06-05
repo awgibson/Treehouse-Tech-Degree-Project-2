@@ -1,9 +1,10 @@
 const studentList = document.getElementsByClassName('student-item');
 const totalStudents = studentList.length;
 const totalPages = Math.ceil(totalStudents / 10);
-const paginationLinks = document.getElementsByClassName('pagination');
+const paginationNav = document.querySelector('.pagination');
 let paginationHTML;
 let linkButtons;
+
 
 function pagination() {
     paginationHTML = '<ul>';
@@ -17,7 +18,7 @@ function pagination() {
         paginationHTML += '</li>';
     }
     paginationHTML += '</ul>';
-    paginationLinks[0].innerHTML = paginationHTML;
+    paginationNav.innerHTML = paginationHTML;
 }
 
 function studentDisplay(page) {
@@ -25,28 +26,31 @@ function studentDisplay(page) {
     let firstStudent = lastStudent - 10;
 
     for (let i = 0; i < totalStudents; i++) {
-        studentList[i].style = 'display: show';
-    } for (let i = lastStudent; i < totalStudents; i++) {
-        studentList[i].style = 'display: none';
+        if (i < lastStudent && i > firstStudent - 1) {
+            studentList[i].style = 'display: show';
+        } else {
+            studentList[i].style = 'display: none';
+        }
     }
-    for (let i = firstStudent - 1; i > -1; i--) {
-        studentList[i].style = 'display: none';
-    }
-
-
 }
+
+function paginationNavClick() {
+    linkButtons = document.querySelectorAll('.pagination ul li a');
+
+    if (event.target.tagName === 'A') {
+        for (let i = 0; i < linkButtons.length; i++) {
+            if (linkButtons[i].innerText != event.target.innerText) {
+                linkButtons[i].className = '';
+            } else {
+                event.target.className = 'active';
+            }
+        }
+        studentDisplay(parseInt(event.target.innerText));
+    }
+}
+
 
 pagination();
 studentDisplay(1);
 
-linkButtons = document.querySelectorAll('.pagination ul li a');
-
-window.addEventListener('click', function (event) {
-    if (event.target.tagName === 'A') {
-        for (let i = 0; i < linkButtons.length; i++) {
-            linkButtons[i].className = '';
-        }
-        event.target.className = 'active';
-        studentDisplay(parseInt(event.target.innerText));
-    }
-});
+paginationNav.addEventListener('click', paginationNavClick);
