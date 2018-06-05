@@ -1,12 +1,15 @@
 const studentList = document.getElementsByClassName('student-item');
-const totalStudents = studentList.length;
-const totalPages = Math.ceil(totalStudents / 10);
+let totalPages = 0;
 const paginationNav = document.querySelector('.pagination');
 let paginationHTML;
 let linkButtons;
+const searchArea = document.querySelector('.student-search');
+let studentTempList = [];
 
 
-function pagination() {
+
+function pagination(totalStudentsToSort) {
+    totalPages = Math.ceil(totalStudentsToSort / 10);
     paginationHTML = '<ul>';
     for (let i = 1; i <= totalPages; i++) {
         paginationHTML += '<li>';
@@ -21,15 +24,20 @@ function pagination() {
     paginationNav.innerHTML = paginationHTML;
 }
 
-function studentDisplay(page) {
+function studentDisplay(page, studentsToDisplay) {
+    let totalStudents = studentsToDisplay.length;
     let lastStudent = page * 10;
     let firstStudent = lastStudent - 10;
-
+    studentTempList = studentsToDisplay;
+    console.log(studentTempList, lastStudent, firstStudent, totalStudents);
     for (let i = 0; i < totalStudents; i++) {
         if (i < lastStudent && i > firstStudent - 1) {
-            studentList[i].style = 'display: show';
-        } else {
-            studentList[i].style = 'display: none';
+            studentTempList[i].style = 'display: show';
+            console.log('Displayed students');
+        }
+        else {
+            studentTempList[i].style = 'display: none';
+            console.log('Hidden students');
         }
     }
 }
@@ -45,12 +53,38 @@ function paginationNavClick() {
                 event.target.className = 'active';
             }
         }
-        studentDisplay(parseInt(event.target.innerText));
+        studentDisplay(parseInt(event.target.innerText), studentTempList);
     }
 }
 
+function search() {
+    let searchResults = [];
+    let searchTerm = searchBox.value.toLowerCase();
+    console.log(searchTerm);
+    for (i = 0; i < studentList.length; i++) {
+        let studentItem = studentList[i];
+        let studentName = studentList[i].firstElementChild.firstElementChild.nextElementSibling.innerText;
+        let studentEmail = studentList[i].firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.innerText;
+        studentList[i].style = 'display: none';
+        if (searchTerm === studentEmail || searchTerm === studentName) {
+            console.log('Search match');
+            searchResults.push(studentItem);
 
-pagination();
-studentDisplay(1);
+        } else { console.log('Search not matched'); }
+
+    }
+    console.log(searchResults);
+    studentDisplay(1, searchResults);
+    pagination(searchResults.length);
+}
+
+searchArea.innerHTML = '<input placeholder="Search for students..."><button>Search</button>';
+const searchBox = document.querySelector('.student-search input');
+const searchButton = document.querySelector('.student-search button');
+
+//function calls
+pagination(studentList.length);
+studentDisplay(1, studentList);
 
 paginationNav.addEventListener('click', paginationNavClick);
+searchButton.addEventListener('click', search);
