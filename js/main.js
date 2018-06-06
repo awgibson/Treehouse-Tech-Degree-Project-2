@@ -1,10 +1,13 @@
 const studentList = document.getElementsByClassName('student-item');
+const mainContainer = document.querySelector('.student-list');
+const listItem = document.createElement('LI');
 let totalPages = 0;
 const paginationNav = document.querySelector('.pagination');
 let paginationHTML;
 let linkButtons;
 const searchArea = document.querySelector('.student-search');
 let studentTempList = [];
+const noResult = document.createElement('DIV');
 
 
 
@@ -40,6 +43,7 @@ function studentDisplay(page, studentsToDisplay) {
             console.log('Hidden students');
         }
     }
+
 }
 
 function paginationNavClick() {
@@ -60,24 +64,31 @@ function paginationNavClick() {
 function search() {
     let searchResults = [];
     let searchTerm = searchBox.value.toLowerCase();
+
     console.log(searchTerm);
     for (i = 0; i < studentList.length; i++) {
         let studentItem = studentList[i];
         let studentName = studentList[i].firstElementChild.firstElementChild.nextElementSibling.innerText;
         let studentEmail = studentList[i].firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.innerText;
         studentList[i].style = 'display: none';
-        if (searchTerm === studentEmail || searchTerm === studentName) {
+        if (studentName.toLowerCase().indexOf(searchTerm) > - 1 || studentEmail.toLowerCase().indexOf(searchTerm) > - 1) {
             console.log('Search match');
+            noResult.style = 'display: none';
             searchResults.push(studentItem);
-
-        } else { console.log('Search not matched'); }
-
+        }
+        if (searchResults.length === 0) {
+            noResult.style = 'display: show';
+        }
     }
+
     console.log(searchResults);
     studentDisplay(1, searchResults);
     pagination(searchResults.length);
 }
 
+
+mainContainer.appendChild(noResult).innerText = 'No results found.';
+noResult.style = 'display: none';
 searchArea.innerHTML = '<input placeholder="Search for students..."><button>Search</button>';
 const searchBox = document.querySelector('.student-search input');
 const searchButton = document.querySelector('.student-search button');
@@ -88,3 +99,4 @@ studentDisplay(1, studentList);
 
 paginationNav.addEventListener('click', paginationNavClick);
 searchButton.addEventListener('click', search);
+searchBox.addEventListener('keyup', search);
