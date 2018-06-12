@@ -119,7 +119,7 @@ function search() {
     const noResult = document.querySelector('.no-results'); //No search results DIV
 
     //Loop through the original list of students and compare the value of the search box to the student name or student email
-    for (i = 0; i < studentList.length; i++) {
+    for (let i = 0; i < studentList.length; i++) {
         let studentItem = studentList[i]; //Current student
         let studentName = studentList[i].firstElementChild.firstElementChild.nextElementSibling.innerText; //Navigates to the H3 tag that holds the student's name
         let studentEmail = studentList[i].firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.innerText; //Navigates to the span that holds the student's email
