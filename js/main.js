@@ -95,7 +95,7 @@ function studentDisplay(page, studentsToDisplay) {
 //The loop will reset all the page links to the default styling with no classname
 //The page number that is clicked is styled as active.
 //After styling is complete, the studentDisplay function is called passing the page number clicked
-function paginationNavClick() {
+function paginationNavClick(event) {
     const linkButtons = document.querySelectorAll('.pagination ul li a');
 
     if (event.target.tagName === 'A') {
