@@ -41,7 +41,7 @@ function initialize() {
     //Creates the no search results message and initially hides it until it is needed
     noResultsDiv.innerText = 'No results found.';
     noResults.className = 'no-results';
-    noResults.style = 'display: none';
+    noResults.style.display = 'none';
 }
 
 //This function creates the the page buttons on the bottom of the page.
@@ -82,10 +82,10 @@ function studentDisplay(page, studentsToDisplay) {
     //If true, the student will be displayed otherwise the student will be hidden.
     for (let i = 0; i < totalStudents; i++) {
         if (i <= lastStudent && i >= firstStudent) {
-            studentTempList[i].style = 'display: block';
+            studentTempList[i].style.display = 'block';
         }
         else {
-            studentTempList[i].style = 'display: none';
+            studentTempList[i].style.display = 'none';
         }
     }
 
@@ -123,17 +123,17 @@ function search() {
         let studentItem = studentList[i]; //Current student
         let studentName = studentList[i].firstElementChild.firstElementChild.nextElementSibling.innerText; //Navigates to the H3 tag that holds the student's name
         let studentEmail = studentList[i].firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.innerText; //Navigates to the span that holds the student's email
-        studentList[i].style = 'display: none'; //Initially hides the student
+        studentList[i].style.display = 'none'; //Initially hides the student
 
         //Conditional checks the index position of the what is entered in the INPUT field using indexOf(). If -1 is returned, this means none of the student names or emails contain
         //what was entered in the search field. If 0 or greater is returned, the student is pushed to the searchResults array.
         if (studentName.toLowerCase().indexOf(searchTerm) > - 1 || studentEmail.toLowerCase().indexOf(searchTerm) > - 1) {
-            noResult.style = 'display: none'; //The no search results DIV is set to hide if a match is found
+            noResult.style.display = 'none'; //The no search results DIV is set to hide if a match is found
             searchResults.push(studentItem);
         }
         //If the searchResults array contains nothing, the no search results message is displayed.
         if (searchResults.length === 0) {
-            noResult.style = 'display: block';
+            noResult.style.display = 'block';
         }
     }
 
