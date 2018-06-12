@@ -70,11 +70,11 @@ function pagination(totalStudentsToSort) {
 //Page number is supplied by the first perimeter.
 //Simple equations are used to find where in the studentlist array to start. 
 //Multiplying the page number you want to display by 10 - 1 will give you the array postion of the 10th student on the page
-//Subtracting 10 from the lastStudent will give the array position of the first student of the page.
+//Multipling the page number you want - 10 will give the array position of the first student of the page.
 function studentDisplay(page, studentsToDisplay) {
     let totalStudents = studentsToDisplay.length;
     let lastStudent = (page * 10) - 1;
-    let firstStudent = lastStudent - 10;
+    let firstStudent = (page * 10) - 10;
     studentTempList = studentsToDisplay;
 
     //The loop will run to the length of total students needed to display.
@@ -82,7 +82,7 @@ function studentDisplay(page, studentsToDisplay) {
     //If true, the student will be displayed otherwise the student will be hidden.
     for (let i = 0; i < totalStudents; i++) {
         if (i <= lastStudent && i >= firstStudent) {
-            studentTempList[i].style = 'display: show';
+            studentTempList[i].style = 'display: block';
         }
         else {
             studentTempList[i].style = 'display: none';
@@ -102,7 +102,8 @@ function paginationNavClick(event) {
         for (let i = 0; i < linkButtons.length; i++) {
             if (linkButtons[i].innerText != event.target.innerText) {
                 linkButtons[i].className = '';
-            } else {
+            }
+            else {
                 event.target.className = 'active';
             }
         }
@@ -132,7 +133,7 @@ function search() {
         }
         //If the searchResults array contains nothing, the no search results message is displayed.
         if (searchResults.length === 0) {
-            noResult.style = 'display: show';
+            noResult.style = 'display: block';
         }
     }
 
